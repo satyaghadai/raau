@@ -19,11 +19,11 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install pyinstaller pywin32 wmi psutil reportlab
 
     - name: Build EXE with PyInstaller
       run: |
-        pyinstaller --noconfirm --onedir --windowed --name "RAAU_Assessment_Utility" --collect-all reportlab --collect-all psutil main.py
+        pyinstaller --noconfirm --onedir --windowed --name "RAAU_Assessment_Utility" --hidden-import=win32com --hidden-import=wmi --hidden-import=psutil --collect-all reportlab --collect-all psutil main.py
 
     - name: Upload Windows Executable Artifact
       uses: actions/upload-artifact@v4
