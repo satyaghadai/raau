@@ -1,4 +1,4 @@
-name: Build Windows Executable
+name: Build and Release Windows Executable
 
 on:
   push:
@@ -25,8 +25,16 @@ jobs:
       run: |
         pyinstaller --noconfirm --onedir --windowed --name "RAAU_Assessment_Utility" --hidden-import=win32com --hidden-import=wmi --hidden-import=psutil --collect-all reportlab --collect-all psutil main.py
 
-    - name: Upload Windows Executable Artifact
-      uses: actions/upload-artifact@v4
+    - name: Zip Executable
+      run: |
+        Compress-Archive -Path dist/RAAU_Assessment_Utility/* -DestinationPath dist/RAAU_Windows_EXE.zip
+
+    - name: Create Public Release
+      uses: softprops/action-gh-release@v1
       with:
-        name: RAAU_Windows_EXE
-        path: dist/RAAU_Assessment_Utility/
+        files: dist/RAAU_Windows_EXE.zip
+        tag_name: v1.0.${{ github.run_number }}
+        name: RAAU Release v1.0.${{ github.run_number }}
+        body: "Automated build of RAAU Windows Standalone Executable."
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
