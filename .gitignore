@@ -1,10 +1,17 @@
+# Python bytecode & cache
 __pycache__/
 *.pyc
+*.pyo
+
+# PyInstaller / Build output
 build/
 dist/
 *.spec
+
+# PDF reports generated during testing
 *.pdf
-.venv/
-env/
+
+# Virtual Environments
 venv/
-.DS_Store
+env/
+.venv/
